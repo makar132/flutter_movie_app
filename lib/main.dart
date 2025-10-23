@@ -1,11 +1,19 @@
+// lib/main.dart - UPDATED WITH WATCHLIST (optional)
+
 import 'package:flutter/material.dart';
-import 'package:movie_app/providers/movie_provider.dart';
-import 'package:movie_app/screens/movie_list_screen.dart';
-import 'package:movie_app/screens/watchlist_screen.dart';
 import 'package:provider/provider.dart';
 
-void main() {
-  runApp(MyApp());
+import 'features/movies/presentation/pages/movie_list_page.dart';
+import 'features/movies/presentation/providers/movie_list_provider.dart';
+import 'features/theme/presentation/providers/theme_provider.dart';
+import 'features/watchlist/presentation/pages/watchlist_page.dart';
+import 'features/watchlist/presentation/providers/watchlist_provider.dart';
+import 'injection_container.dart' as di;
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await di.init();
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -13,23 +21,41 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => MovieProvider()..loadTheme()..fetchMovies(),
-      child: Consumer<MovieProvider>(
-        builder: (context, movieProvider, child) {
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (_) => di.sl<ThemeProvider>()..loadTheme(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => di.sl<MovieListProvider>(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => di.sl<WatchlistProvider>()..loadWatchlist(),
+        ),
+      ],
+      child: Consumer<ThemeProvider>(
+        builder: (context, themeProvider, child) {
           return MaterialApp(
             debugShowCheckedModeBanner: false,
             title: 'Movie App',
-            theme: movieProvider.isDarkMode
-                ? ThemeData.dark().copyWith(
-              appBarTheme: AppBarTheme(backgroundColor: Colors.black),
-            )
-                : ThemeData.light().copyWith(
-              appBarTheme: AppBarTheme(backgroundColor: Colors.blue),
+            theme: ThemeData.light().copyWith(
+              appBarTheme: const AppBarTheme(
+                backgroundColor: Colors.blue,
+                foregroundColor: Colors.white,
+              ),
             ),
-            home: MovieListScreen(),
+            darkTheme: ThemeData.dark().copyWith(
+              appBarTheme: const AppBarTheme(
+                backgroundColor: Colors.black,
+                foregroundColor: Colors.white,
+              ),
+            ),
+            themeMode: themeProvider.isDarkMode
+                ? ThemeMode.dark
+                : ThemeMode.light,
+            home: const MovieListPage(),
             routes: {
-              '/watchlist': (context) => WatchlistScreen(),
+              '/watchlist': (context) => const WatchlistPage(),
             },
           );
         },
