@@ -1,14 +1,14 @@
-// lib/features/movies/presentation/providers/movie_list_provider.dart
+// lib/features/movies/presentation/providers/movie_list_provider.dart - UPDATED FOR PAGINATION
 
 import 'package:flutter/foundation.dart';
 import '../../../../core/enums/request_state.dart';
 import '../../../../core/error/failures.dart';
-import '../../../../core/usecases/usecase.dart';
 import '../../domain/entities/movie.dart';
 import '../../domain/usecases/get_now_playing_movies.dart';
 import '../../domain/usecases/get_popular_movies.dart';
 import '../../domain/usecases/get_top_rated_movies.dart';
 import '../../domain/usecases/get_upcoming_movies.dart';
+import '../../domain/usecases/movie_params.dart';
 
 class MovieListProvider extends ChangeNotifier {
   final GetNowPlayingMovies getNowPlayingMovies;
@@ -63,7 +63,7 @@ class MovieListProvider extends ChangeNotifier {
   String _upcomingError = '';
   String get upcomingError => _upcomingError;
 
-  // Fetch all movies
+  /// Fetch all movie categories (page 1 only for home page)
   Future<void> fetchAllMovies() async {
     await Future.wait([
       fetchNowPlayingMovies(),
@@ -73,12 +73,12 @@ class MovieListProvider extends ChangeNotifier {
     ]);
   }
 
-  // Fetch Now Playing Movies
+  /// Fetch Now Playing Movies (page 1)
   Future<void> fetchNowPlayingMovies() async {
     _nowPlayingState = RequestState.loading;
     notifyListeners();
 
-    final result = await getNowPlayingMovies(NoParams());
+    final result = await getNowPlayingMovies(const MovieParams(page: 1));
 
     result.fold(
           (failure) {
@@ -88,20 +88,19 @@ class MovieListProvider extends ChangeNotifier {
       },
           (movies) {
         _nowPlayingMovies = movies;
-        _nowPlayingState = movies.isEmpty
-            ? RequestState.empty
-            : RequestState.success;
+        _nowPlayingState =
+        movies.isEmpty ? RequestState.empty : RequestState.success;
         notifyListeners();
       },
     );
   }
 
-  // Fetch Popular Movies
+  /// Fetch Popular Movies (page 1)
   Future<void> fetchPopularMovies() async {
     _popularState = RequestState.loading;
     notifyListeners();
 
-    final result = await getPopularMovies(NoParams());
+    final result = await getPopularMovies(const MovieParams(page: 1));
 
     result.fold(
           (failure) {
@@ -111,20 +110,19 @@ class MovieListProvider extends ChangeNotifier {
       },
           (movies) {
         _popularMovies = movies;
-        _popularState = movies.isEmpty
-            ? RequestState.empty
-            : RequestState.success;
+        _popularState =
+        movies.isEmpty ? RequestState.empty : RequestState.success;
         notifyListeners();
       },
     );
   }
 
-  // Fetch Top Rated Movies
+  /// Fetch Top Rated Movies (page 1)
   Future<void> fetchTopRatedMovies() async {
     _topRatedState = RequestState.loading;
     notifyListeners();
 
-    final result = await getTopRatedMovies(NoParams());
+    final result = await getTopRatedMovies(const MovieParams(page: 1));
 
     result.fold(
           (failure) {
@@ -134,20 +132,19 @@ class MovieListProvider extends ChangeNotifier {
       },
           (movies) {
         _topRatedMovies = movies;
-        _topRatedState = movies.isEmpty
-            ? RequestState.empty
-            : RequestState.success;
+        _topRatedState =
+        movies.isEmpty ? RequestState.empty : RequestState.success;
         notifyListeners();
       },
     );
   }
 
-  // Fetch Upcoming Movies
+  /// Fetch Upcoming Movies (page 1)
   Future<void> fetchUpcomingMovies() async {
     _upcomingState = RequestState.loading;
     notifyListeners();
 
-    final result = await getUpcomingMovies(NoParams());
+    final result = await getUpcomingMovies(const MovieParams(page: 1));
 
     result.fold(
           (failure) {
@@ -157,9 +154,8 @@ class MovieListProvider extends ChangeNotifier {
       },
           (movies) {
         _upcomingMovies = movies;
-        _upcomingState = movies.isEmpty
-            ? RequestState.empty
-            : RequestState.success;
+        _upcomingState =
+        movies.isEmpty ? RequestState.empty : RequestState.success;
         notifyListeners();
       },
     );
@@ -171,8 +167,6 @@ class MovieListProvider extends ChangeNotifier {
         return 'Server error. Please try again.';
       case NetworkFailure:
         return 'No internet connection. Please check your network.';
-      case CacheFailure:
-        return 'Cache error. Please try again.';
       default:
         return 'Unexpected error occurred.';
     }

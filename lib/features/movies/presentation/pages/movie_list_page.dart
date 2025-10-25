@@ -1,14 +1,16 @@
-// lib/features/movies/presentation/pages/movie_list_page.dart - UPDATED WITH THEME BUTTON
+// lib/features/movies/presentation/pages/movie_list_page.dart - UPDATED WITH SEE ALL BUTTONS
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../../core/enums/request_state.dart';
 import '../../domain/entities/movie.dart';
 import '../providers/movie_list_provider.dart';
+import '../providers/category_movies_provider.dart';
 import '../widgets/movie_category_list.dart';
 import '../../../theme/presentation/providers/theme_provider.dart';
 import '../../../search/presentation/pages/search_page.dart';
 import '../../../search/presentation/providers/search_provider.dart';
+import 'category_movies_page.dart';
 import '../../../../injection_container.dart' as di;
 
 class MovieListPage extends StatefulWidget {
@@ -80,6 +82,7 @@ class _MovieListPageState extends State<MovieListPage> {
                   movies: provider.nowPlayingMovies,
                   error: provider.nowPlayingError,
                   onRetry: provider.fetchNowPlayingMovies,
+                  category: MovieCategory.nowPlaying,
                 ),
                 _buildMovieSection(
                   context: context,
@@ -88,6 +91,7 @@ class _MovieListPageState extends State<MovieListPage> {
                   movies: provider.popularMovies,
                   error: provider.popularError,
                   onRetry: provider.fetchPopularMovies,
+                  category: MovieCategory.popular,
                 ),
                 _buildMovieSection(
                   context: context,
@@ -96,6 +100,7 @@ class _MovieListPageState extends State<MovieListPage> {
                   movies: provider.topRatedMovies,
                   error: provider.topRatedError,
                   onRetry: provider.fetchTopRatedMovies,
+                  category: MovieCategory.topRated,
                 ),
                 _buildMovieSection(
                   context: context,
@@ -104,6 +109,7 @@ class _MovieListPageState extends State<MovieListPage> {
                   movies: provider.upcomingMovies,
                   error: provider.upcomingError,
                   onRetry: provider.fetchUpcomingMovies,
+                  category: MovieCategory.upcoming,
                 ),
               ],
             ),
@@ -120,17 +126,42 @@ class _MovieListPageState extends State<MovieListPage> {
     required List<Movie> movies,
     required String error,
     required VoidCallback onRetry,
+    required MovieCategory category,
   }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Text(
-            title,
-            style: Theme.of(context).textTheme.titleLarge?.copyWith(
-              fontWeight: FontWeight.bold,
-            ),
+          padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                title,
+                style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              if (state == RequestState.success && movies.isNotEmpty)
+                TextButton.icon(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ChangeNotifierProvider(
+                          create: (_) => di.sl<CategoryMoviesProvider>(),
+                          child: CategoryMoviesPage(
+                            category: category,
+                            title: title,
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                  icon: const Icon(Icons.arrow_forward, size: 18),
+                  label: const Text('See All'),
+                ),
+            ],
           ),
         ),
         if (state == RequestState.loading)
@@ -171,7 +202,9 @@ class _MovieListPageState extends State<MovieListPage> {
               ),
             )
           else if (state == RequestState.success)
-              MovieCategoryList(movies: movies),
+              MovieCategoryList(
+                movies: movies.take(6).toList(), // Show only 6 movies on home
+              ),
       ],
     );
   }

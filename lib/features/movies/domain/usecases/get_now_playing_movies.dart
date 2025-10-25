@@ -1,18 +1,19 @@
-// lib/features/movies/domain/usecases/get_now_playing_movies.dart
+// lib/features/movies/domain/usecases/get_now_playing_movies.dart - UPDATED WITH PAGINATION
 
 import 'package:dartz/dartz.dart';
 import '../../../../core/error/failures.dart';
 import '../../../../core/usecases/usecase.dart';
 import '../entities/movie.dart';
 import '../repositories/movie_repository.dart';
+import 'movie_params.dart';
 
-class GetNowPlayingMovies extends UseCase<List<Movie>, NoParams> {
+class GetNowPlayingMovies extends UseCase<List<Movie>, MovieParams> {
   final MovieRepository repository;
 
   GetNowPlayingMovies(this.repository);
 
   @override
-  Future<Either<Failure, List<Movie>>> call(NoParams params) async {
-    return await repository.getNowPlayingMovies();
+  Future<Either<Failure, List<Movie>>> call(MovieParams params) async {
+    return await repository.getNowPlayingMovies(page: params.page);
   }
 }

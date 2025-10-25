@@ -1,11 +1,14 @@
 // lib/features/movies/presentation/widgets/movie_card.dart - UPDATED WITH WATCHLIST
 
 import 'package:flutter/material.dart';
+import 'package:movie_app/features/movies/presentation/providers/movie_detail_provider.dart';
 import 'package:provider/provider.dart';
 import '../../../../core/utils/constants.dart';
 import '../../domain/entities/movie.dart';
 import '../../../watchlist/presentation/providers/watchlist_provider.dart';
 import '../pages/movie_detail_page.dart';
+import '../../../../injection_container.dart' as di;
+
 
 class MovieCard extends StatelessWidget {
   final Movie movie;
@@ -15,11 +18,22 @@ class MovieCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+      // onTap: () {
+      //   Navigator.push(
+      //     context,
+      //     MaterialPageRoute(
+      //       builder: (context) => MovieDetailPage(movie: movie),
+      //     ),
+      //   );
+      // },
       onTap: () {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => MovieDetailPage(movie: movie),
+            builder: (context) => ChangeNotifierProvider(
+              create: (_) => di.sl<MovieDetailProvider>(),
+              child: MovieDetailPage(movie: movie),
+            ),
           ),
         );
       },
