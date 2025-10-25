@@ -35,6 +35,14 @@ import 'features/watchlist/domain/usecases/is_in_watchlist.dart';
 import 'features/watchlist/domain/usecases/remove_from_watchlist.dart';
 import 'features/watchlist/presentation/providers/watchlist_provider.dart';
 
+//Search imports
+import 'features/search/data/datasources/search_remote_data_source.dart';
+import 'features/search/data/repositories/search_repository_impl.dart';
+import 'features/search/domain/repositories/search_repository.dart';
+import 'features/search/domain/usecases/search_movies.dart';
+import 'features/search/presentation/providers/search_provider.dart';
+
+
 final sl = GetIt.instance;
 
 Future<void> init() async {
@@ -134,4 +142,29 @@ Future<void> init() async {
 
   final sharedPreferences = await SharedPreferences.getInstance();
   sl.registerLazySingleton(() => sharedPreferences);
+
+  // ========== SEARCH FEATURE ==========
+
+  // Providers
+  sl.registerFactory(
+        () => SearchProvider(
+      searchMovies: sl(),
+    ),
+  );
+
+  // Use Cases
+  sl.registerLazySingleton(() => SearchMovies(sl()));
+
+  // Repository
+  sl.registerLazySingleton<SearchRepository>(
+        () => SearchRepositoryImpl(
+      remoteDataSource: sl(),
+      networkInfo: sl(),
+    ),
+  );
+
+  // Data Sources
+  sl.registerLazySingleton<SearchRemoteDataSource>(
+        () => SearchRemoteDataSourceImpl(dio: sl()),
+  );
 }

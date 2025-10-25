@@ -7,6 +7,9 @@ import '../../domain/entities/movie.dart';
 import '../providers/movie_list_provider.dart';
 import '../widgets/movie_category_list.dart';
 import '../../../theme/presentation/providers/theme_provider.dart';
+import '../../../search/presentation/pages/search_page.dart';
+import '../../../search/presentation/providers/search_provider.dart';
+import '../../../../injection_container.dart' as di;
 
 class MovieListPage extends StatefulWidget {
   const MovieListPage({super.key});
@@ -33,7 +36,15 @@ class _MovieListPageState extends State<MovieListPage> {
           IconButton(
             icon: const Icon(Icons.search),
             onPressed: () {
-              // TODO: Navigate to search page
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ChangeNotifierProvider(
+                    create: (_) => di.sl<SearchProvider>(),
+                    child: const SearchPage(),
+                  ),
+                ),
+              );
             },
           ),
           Consumer<ThemeProvider>(
