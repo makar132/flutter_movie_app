@@ -4,8 +4,6 @@ import 'package:dio/dio.dart';
 import '../../../../core/error/exceptions.dart';
 import '../../../../core/utils/constants.dart';
 import '../models/movie_model.dart';
-import '../models/cast_model.dart';
-import '../models/video_model.dart';
 
 abstract class MovieRemoteDataSource {
   Future<List<MovieModel>> getNowPlayingMovies({int page = 1});
