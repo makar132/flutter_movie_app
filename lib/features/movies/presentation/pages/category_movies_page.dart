@@ -24,10 +24,14 @@ class _CategoryMoviesPageState extends State<CategoryMoviesPage> {
   @override
   void initState() {
     super.initState();
-    Future.microtask(() {
-      context.read<CategoryMoviesProvider>().loadMovies(widget.category);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        context.read<CategoryMoviesProvider>().loadMovies(widget.category);
+        _scrollController.addListener(_onScroll);
+
+      }
     });
-    _scrollController.addListener(_onScroll);
+
   }
 
   @override

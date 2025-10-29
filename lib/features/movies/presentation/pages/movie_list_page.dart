@@ -22,9 +22,12 @@ class _MovieListPageState extends State<MovieListPage> {
   @override
   void initState() {
     super.initState();
-    Future.microtask(
-          () => context.read<MovieListProvider>().fetchAllMovies(),
-    );
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        context.read<MovieListProvider>().fetchAllMovies();
+      }
+    });
+
   }
 
   @override

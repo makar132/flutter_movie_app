@@ -20,9 +20,13 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
   @override
   void initState() {
     super.initState();
-    Future.microtask(() {
-      context.read<MovieDetailProvider>().loadMovieDetails(widget.movie.id);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        context.read<MovieDetailProvider>().loadMovieDetails(widget.movie.id);
+
+      }
     });
+
   }
 
   @override
