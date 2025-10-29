@@ -1,5 +1,3 @@
-// lib/features/movies/domain/usecases/movie_params.dart
-
 import 'package:equatable/equatable.dart';
 
 class MovieParams extends Equatable {
@@ -9,9 +7,4 @@ class MovieParams extends Equatable {
 
   @override
   List<Object?> get props => [page];
-}
-
-class NoParams extends Equatable {
-  @override
-  List<Object?> get props => [];
 }

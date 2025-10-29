@@ -1,5 +1,3 @@
-// lib/features/movies/domain/usecases/get_movie_details.dart
-
 import 'package:dartz/dartz.dart';
 import '../../../../core/error/failures.dart';
 import '../../../../core/usecases/usecase.dart';

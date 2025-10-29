@@ -1,5 +1,3 @@
-// lib/features/watchlist/domain/usecases/get_watchlist.dart
-
 import 'package:dartz/dartz.dart';
 import '../../../../core/error/failures.dart';
 import '../../../../core/usecases/usecase.dart';

@@ -1,5 +1,3 @@
-// lib/features/movies/data/datasources/movie_remote_data_source.dart - UPDATED WITH DETAILS
-
 import 'package:dio/dio.dart';
 import '../../../../core/error/exceptions.dart';
 import '../../../../core/utils/constants.dart';
@@ -11,7 +9,6 @@ abstract class MovieRemoteDataSource {
   Future<List<MovieModel>> getTopRatedMovies({int page = 1});
   Future<List<MovieModel>> getUpcomingMovies({int page = 1});
 
-  // NEW: Get movie details with cast, videos, similar
   Future<Map<String, dynamic>> getMovieDetails(int movieId);
 }
 

@@ -1,5 +1,3 @@
-// lib/features/theme/presentation/providers/theme_provider.dart
-
 import 'package:flutter/foundation.dart';
 import '../../../../core/usecases/usecase.dart';
 import '../../domain/usecases/get_theme.dart';

@@ -1,5 +1,3 @@
-// lib/features/movies/presentation/widgets/movie_card.dart - UPDATED WITH WATCHLIST
-
 import 'package:flutter/material.dart';
 import 'package:movie_app/features/movies/presentation/providers/movie_detail_provider.dart';
 import 'package:provider/provider.dart';
@@ -9,7 +7,6 @@ import '../../../watchlist/presentation/providers/watchlist_provider.dart';
 import '../pages/movie_detail_page.dart';
 import '../../../../injection_container.dart' as di;
 
-
 class MovieCard extends StatelessWidget {
   final Movie movie;
 
@@ -18,14 +15,6 @@ class MovieCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      // onTap: () {
-      //   Navigator.push(
-      //     context,
-      //     MaterialPageRoute(
-      //       builder: (context) => MovieDetailPage(movie: movie),
-      //     ),
-      //   );
-      // },
       onTap: () {
         Navigator.push(
           context,
@@ -41,8 +30,8 @@ class MovieCard extends StatelessWidget {
         elevation: 5.0,
         margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 10.0),
         child: SizedBox(
-          width: 150.0,
-          height: 250.0,
+          width: 200.0,
+          height: 300.0,
           child: Stack(
             children: [
               Column(
@@ -53,13 +42,13 @@ class MovieCard extends StatelessWidget {
                     borderRadius: BorderRadius.circular(8.0),
                     child: Image.network(
                       '${AppConstants.imageBaseUrl}${movie.posterPath}',
-                      height: 150.0,
-                      width: 150.0,
-                      fit: BoxFit.cover,
+                      height: 200.0,
+                      width: 200.0,
+                      fit: BoxFit.fill,
                       errorBuilder: (context, error, stackTrace) {
                         return Container(
-                          height: 150.0,
-                          width: 150.0,
+                          height: 200.0,
+                          width: 200.0,
                           color: Colors.grey,
                           child: const Icon(Icons.error, color: Colors.white),
                         );
@@ -67,13 +56,13 @@ class MovieCard extends StatelessWidget {
                       loadingBuilder: (context, child, loadingProgress) {
                         if (loadingProgress == null) return child;
                         return SizedBox(
-                          height: 150.0,
-                          width: 150.0,
+                          height: 200.0,
+                          width: 200.0,
                           child: Center(
                             child: CircularProgressIndicator(
                               value: loadingProgress.expectedTotalBytes != null
                                   ? loadingProgress.cumulativeBytesLoaded /
-                                  loadingProgress.expectedTotalBytes!
+                                        loadingProgress.expectedTotalBytes!
                                   : null,
                             ),
                           ),
@@ -83,16 +72,16 @@ class MovieCard extends StatelessWidget {
                   ),
                   const SizedBox(height: 8.0),
                   // Movie Title
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                    child: Text(
-                      movie.title,
-                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        fontWeight: FontWeight.bold,
+                  Expanded(
+                    child: Center(
+                      child: Text(
+                        movie.title,
+                        style: Theme.of(context).textTheme.titleMedium
+                            ?.copyWith(fontWeight: FontWeight.bold),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        textAlign: TextAlign.center,
                       ),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      textAlign: TextAlign.center,
                     ),
                   ),
                 ],
@@ -103,8 +92,9 @@ class MovieCard extends StatelessWidget {
                 right: 4,
                 child: Consumer<WatchlistProvider>(
                   builder: (context, watchlistProvider, child) {
-                    final isInWatchlist =
-                    watchlistProvider.isMovieInWatchlist(movie.id);
+                    final isInWatchlist = watchlistProvider.isMovieInWatchlist(
+                      movie.id,
+                    );
 
                     return Container(
                       decoration: BoxDecoration(
@@ -119,8 +109,7 @@ class MovieCard extends StatelessWidget {
                           isInWatchlist
                               ? Icons.favorite
                               : Icons.favorite_border,
-                          color:
-                          isInWatchlist ? Colors.red : Colors.white,
+                          color: isInWatchlist ? Colors.red : Colors.white,
                         ),
                         onPressed: () {
                           watchlistProvider.toggleWatchlist(movie);

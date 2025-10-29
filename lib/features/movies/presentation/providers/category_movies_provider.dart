@@ -1,5 +1,3 @@
-// lib/features/movies/presentation/providers/category_movies_provider.dart
-
 import 'package:flutter/foundation.dart';
 import '../../../../core/enums/request_state.dart';
 import '../../../../core/error/failures.dart';
@@ -25,7 +23,7 @@ class CategoryMoviesProvider extends ChangeNotifier {
     required this.getUpcomingMovies,
   });
 
-  List<Movie> _movies = [];
+  final List<Movie> _movies = [];
   List<Movie> get movies => _movies;
 
   int _currentPage = 1;
@@ -107,9 +105,8 @@ class CategoryMoviesProvider extends ChangeNotifier {
           _movies.addAll(newMovies);
           _state = RequestState.success;
 
-          // TMDB usually has max 500 pages, but we check for empty response
           if (newMovies.length < 20) {
-            _hasMore = false; // Probably last page
+            _hasMore = false; // last page
           }
         }
         notifyListeners();

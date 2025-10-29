@@ -3,10 +3,10 @@ class Movie {
   final String title;
   final String overview;
   final String posterPath;
-  final String backdropPath;      // NEW - added
-  final double voteAverage;       // NEW - added
-  final String releaseDate;       // NEW - added
-  final List<int> genreIds;       // NEW - added
+  final String backdropPath;
+  final double voteAverage;
+  final String releaseDate;
+  final List<int> genreIds;
 
   Movie({
     required this.id,

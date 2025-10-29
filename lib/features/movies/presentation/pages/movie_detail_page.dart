@@ -1,5 +1,3 @@
-// lib/features/movies/presentation/pages/movie_detail_page.dart - ENHANCED WITH CAST, TRAILERS, SIMILAR
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../../core/enums/request_state.dart';

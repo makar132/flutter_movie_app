@@ -1,5 +1,3 @@
-// lib/features/search/presentation/providers/search_provider.dart
-
 import 'dart:async';
 import 'package:flutter/foundation.dart';
 import '../../../../core/enums/request_state.dart';

@@ -1,5 +1,3 @@
-// lib/features/watchlist/data/datasources/watchlist_local_data_source.dart
-
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../core/error/exceptions.dart';
@@ -19,7 +17,6 @@ class WatchlistLocalDataSourceImpl implements WatchlistLocalDataSource {
   WatchlistLocalDataSourceImpl({required this.sharedPreferences});
 
   /// Get watchlist from storage
-  /// Returns complete Movie objects with all data (THE FIX!)
   @override
   Future<List<Movie>> getWatchlist() async {
     try {
@@ -44,20 +41,17 @@ class WatchlistLocalDataSourceImpl implements WatchlistLocalDataSource {
   }
 
   /// Add movie to watchlist
-  /// Saves complete Movie as JSON string (THE FIX!)
   @override
   Future<void> addToWatchlist(Movie movie) async {
     try {
       final watchlist = await getWatchlist();
 
-      // Check if already in list
       if (watchlist.any((m) => m.id == movie.id)) {
-        return; // Already added
+        return;
       }
 
       watchlist.add(movie);
 
-      // Convert each movie to complete JSON string
       final jsonList = watchlist.map((m) {
         return jsonEncode({
           'id': m.id,
@@ -84,7 +78,6 @@ class WatchlistLocalDataSourceImpl implements WatchlistLocalDataSource {
       final watchlist = await getWatchlist();
       watchlist.removeWhere((m) => m.id == movieId);
 
-      // Save updated list as JSON
       final jsonList = watchlist.map((m) {
         return jsonEncode({
           'id': m.id,

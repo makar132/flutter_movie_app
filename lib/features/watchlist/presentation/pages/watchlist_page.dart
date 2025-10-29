@@ -1,5 +1,3 @@
-// lib/features/watchlist/presentation/pages/watchlist_page.dart
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../../core/enums/request_state.dart';
@@ -79,44 +77,14 @@ class _WatchlistPageState extends State<WatchlistPage> {
           return GridView.builder(
             padding: const EdgeInsets.all(8),
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 3,
-              childAspectRatio: 0.6,
-              // crossAxisSpacing: 8,
-              // mainAxisSpacing: 8,
+              crossAxisCount: 2,
+              childAspectRatio: 0.7,
             ),
             itemCount: provider.watchlist.length,
             itemBuilder: (context, index) {
               return Center(
                 child:
                   MovieCard(movie: provider.watchlist[index]),
-                  // Positioned(
-                  //   top: 8,
-                  //   right: 8,
-                  //   child: Container(
-                  //     decoration: BoxDecoration(
-                  //       color: Colors.red,
-                  //       borderRadius: BorderRadius.circular(20),
-                  //     ),
-                  //     child: IconButton(
-                  //       iconSize: 20,
-                  //       constraints: const BoxConstraints(),
-                  //       padding: const EdgeInsets.all(4),
-                  //       icon: const Icon(
-                  //         Icons.close,
-                  //         color: Colors.white,
-                  //       ),
-                  //       onPressed: () {
-                  //         provider.toggleWatchlist(provider.watchlist[index]);
-                  //         ScaffoldMessenger.of(context).showSnackBar(
-                  //           const SnackBar(
-                  //             content: Text('Removed from watchlist'),
-                  //             duration: Duration(milliseconds: 1500),
-                  //           ),
-                  //         );
-                  //       },
-                  //     ),
-                  //   ),
-                  // ),
 
               );
             },

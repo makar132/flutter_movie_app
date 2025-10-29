@@ -1,5 +1,4 @@
 class AppConstants {
-  // API Configuration - MOVED FROM api_service.dart
   static const String apiKey =
       'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJjM2MyMTRjMDMyOTkwYTk3YzgzZmVlMmU1NTlmODc4NyIsIm5iZiI6MTc1Njg5MzM5Ni45NTUwMDAyLCJzdWIiOiI2OGI4MTBkNDc3ZTE3NDUwYzM5OGE1YTMiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.c99-dnuS7d3ItalnKlsw4muFambFOnfiZcTIgdJ4YSM';
 

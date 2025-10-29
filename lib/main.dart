@@ -1,5 +1,3 @@
-// lib/main.dart - UPDATED WITH WATCHLIST (optional)
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

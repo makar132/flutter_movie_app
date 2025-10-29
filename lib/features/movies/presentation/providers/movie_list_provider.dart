@@ -1,5 +1,3 @@
-// lib/features/movies/presentation/providers/movie_list_provider.dart - UPDATED FOR PAGINATION
-
 import 'package:flutter/foundation.dart';
 import '../../../../core/enums/request_state.dart';
 import '../../../../core/error/failures.dart';

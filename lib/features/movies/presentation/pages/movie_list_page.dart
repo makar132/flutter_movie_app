@@ -1,5 +1,3 @@
-// lib/features/movies/presentation/pages/movie_list_page.dart - UPDATED WITH SEE ALL BUTTONS
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../../core/enums/request_state.dart';

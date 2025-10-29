@@ -1,5 +1,3 @@
-// lib/features/movies/presentation/providers/movie_detail_provider.dart
-
 import 'package:flutter/foundation.dart';
 import '../../../../core/enums/request_state.dart';
 import '../../../../core/error/failures.dart';

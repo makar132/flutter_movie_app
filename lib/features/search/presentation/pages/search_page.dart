@@ -1,5 +1,3 @@
-// lib/features/search/presentation/pages/search_page.dart
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../../core/enums/request_state.dart';
@@ -15,6 +13,8 @@ class SearchPage extends StatefulWidget {
 
 class _SearchPageState extends State<SearchPage> {
   final _searchController = TextEditingController();
+  bool showClearSearchIcon=false;
+
 
   @override
   void dispose() {
@@ -31,28 +31,34 @@ class _SearchPageState extends State<SearchPage> {
           autofocus: true,
           decoration: InputDecoration(
             hintText: 'Search movies...',
-            hintStyle: TextStyle(
-              color: Theme.of(
-                context,
-              ).colorScheme.onPrimary.withValues(alpha: 0.6),
-            ),
+            hintStyle: TextStyle(color: Colors.white60),
             border: InputBorder.none,
-            suffixIcon: _searchController.text.isNotEmpty
-                ? IconButton(
-                    icon: const Icon(Icons.clear),
-                    onPressed: () {
-                      _searchController.clear();
-                      context.read<SearchProvider>().clearSearch();
-                    },
-                  )
-                : null,
           ),
-          style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),
+
+          style: TextStyle(color: Colors.white),
           onChanged: (query) {
             context.read<SearchProvider>().search(query);
-            setState(() {}); // Update to show/hide clear button
+            setState(() {
+              showClearSearchIcon=_searchController.text.isNotEmpty;
+            });
           },
         ),
+        actions: [
+            if (showClearSearchIcon)
+                 IconButton(
+                  icon: const Icon(Icons.clear),
+                  onPressed: () {
+                    _searchController.clear();
+                    context.read<SearchProvider>().clearSearch();
+                    setState(() {
+                      showClearSearchIcon=_searchController.text.isNotEmpty;
+                    });
+                  },
+                )
+
+
+
+        ],
       ),
       body: Consumer<SearchProvider>(
         builder: (context, provider, child) {
@@ -134,8 +140,8 @@ class _SearchPageState extends State<SearchPage> {
           return GridView.builder(
             padding: const EdgeInsets.all(8),
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 3,
-              childAspectRatio: 0.6,
+              crossAxisCount: 2,
+              childAspectRatio: 0.7,
             ),
             itemCount: provider.results.length,
             itemBuilder: (context, index) {

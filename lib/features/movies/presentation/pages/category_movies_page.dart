@@ -1,5 +1,3 @@
-// lib/features/movies/presentation/pages/category_movies_page.dart
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../../core/enums/request_state.dart';
@@ -94,29 +92,58 @@ class _CategoryMoviesPageState extends State<CategoryMoviesPage> {
 
           return RefreshIndicator(
             onRefresh: () => provider.refresh(),
-            child: GridView.builder(
+            child: CustomScrollView(
               controller: _scrollController,
-              padding: const EdgeInsets.all(8),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                childAspectRatio: 0.7,
-                crossAxisSpacing: 8,
-                mainAxisSpacing: 8,
-              ),
-              itemCount: provider.movies.length + (provider.hasMore ? 1 : 0),
-              itemBuilder: (context, index) {
-                if (index == provider.movies.length) {
-                  // Loading indicator at bottom
-                  return const Center(
+              slivers: [
+                // GridView.builder(
+                //   controller: _scrollController,
+                //   padding: const EdgeInsets.all(8),
+                //   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                //     crossAxisCount: 2,
+                //     childAspectRatio: 0.7,
+                //     crossAxisSpacing: 8,
+                //     mainAxisSpacing: 8,
+                //   ),
+                //   itemCount: provider.movies.length + (provider.hasMore ? 1 : 0),
+                //   itemBuilder: (context, index) {
+                //     if (index == provider.movies.length) {
+                //       // Loading indicator at bottom
+                //       return Expanded(
+                //         child: const Center(
+                //             child: CircularProgressIndicator()
+                //
+                //         ),
+                //       );
+                //     }
+                //
+                //     return MovieCard(movie: provider.movies[index]);
+                //   },
+                //
+                // ),
+                SliverGrid(
+                  delegate: SliverChildBuilderDelegate(
+                        (context, index) {
+                      return MovieCard(movie: provider.movies[index]);
+                    },
+                    childCount: provider.movies.length,
+                  ),
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    childAspectRatio: 0.7,
+                    crossAxisSpacing: 8,
+                    mainAxisSpacing: 8,
+                  ),
+                ),
+                if (provider.isLoadingMore)
+                  const SliverToBoxAdapter(
                     child: Padding(
-                      padding: EdgeInsets.all(16.0),
-                      child: CircularProgressIndicator(),
+                      padding: EdgeInsets.all(20.0),
+                      child: Center(
+                        child: CircularProgressIndicator(),
+                      ),
                     ),
-                  );
-                }
-
-                return MovieCard(movie: provider.movies[index]);
-              },
+                  ),
+              ],
             ),
           );
         },

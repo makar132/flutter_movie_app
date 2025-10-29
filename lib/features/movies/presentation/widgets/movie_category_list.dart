@@ -1,5 +1,3 @@
-// lib/features/movies/presentation/widgets/movie_category_list.dart
-
 import 'package:flutter/material.dart';
 import '../../domain/entities/movie.dart';
 import 'movie_card.dart';
@@ -12,7 +10,7 @@ class MovieCategoryList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 250,
+      height: 300,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         itemCount: movies.length,
