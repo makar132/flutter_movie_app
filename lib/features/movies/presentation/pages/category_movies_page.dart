@@ -99,31 +99,6 @@ class _CategoryMoviesPageState extends State<CategoryMoviesPage> {
             child: CustomScrollView(
               controller: _scrollController,
               slivers: [
-                // GridView.builder(
-                //   controller: _scrollController,
-                //   padding: const EdgeInsets.all(8),
-                //   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                //     crossAxisCount: 2,
-                //     childAspectRatio: 0.7,
-                //     crossAxisSpacing: 8,
-                //     mainAxisSpacing: 8,
-                //   ),
-                //   itemCount: provider.movies.length + (provider.hasMore ? 1 : 0),
-                //   itemBuilder: (context, index) {
-                //     if (index == provider.movies.length) {
-                //       // Loading indicator at bottom
-                //       return Expanded(
-                //         child: const Center(
-                //             child: CircularProgressIndicator()
-                //
-                //         ),
-                //       );
-                //     }
-                //
-                //     return MovieCard(movie: provider.movies[index]);
-                //   },
-                //
-                // ),
                 SliverGrid(
                   delegate: SliverChildBuilderDelegate(
                         (context, index) {

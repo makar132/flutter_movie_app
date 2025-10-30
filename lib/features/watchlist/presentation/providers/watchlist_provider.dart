@@ -1,6 +1,5 @@
 import 'package:flutter/foundation.dart';
 import '../../../../core/enums/request_state.dart';
-import '../../../../core/error/failures.dart';
 import '../../../../core/usecases/usecase.dart';
 import '../../../movies/domain/entities/movie.dart';
 import '../../domain/usecases/add_to_watchlist.dart';
@@ -52,19 +51,6 @@ class WatchlistProvider extends ChangeNotifier {
   }
 
   /// Add or remove movie from watchlist (toggle)
-  // Future<void> toggleWatchlist(Movie movie) async {
-  //   final isAdded = _watchlist.any((m) => m.id == movie.id);
-  //
-  //   if (isAdded) {
-  //     // Remove from watchlist
-  //     await removeFromWatchlist(movie.id);
-  //   } else {
-  //     // Add to watchlist
-  //     await addToWatchlist(movie);
-  //   }
-  // }
-
-  /// Add or remove movie from watchlist (toggle)
   Future<void> toggleWatchlist(Movie movie) async {
     final isAdded = _watchlist.any((m) => m.id == movie.id);
 
@@ -108,54 +94,5 @@ class WatchlistProvider extends ChangeNotifier {
   /// Check if movie is in watchlist
   bool isMovieInWatchlist(int movieId) {
     return _watchlist.any((m) => m.id == movieId);
-  }
-
-  /// Internal: Add movie
-  Future<void> _addMovieToWatchlist(Movie movie) async {
-    final result = await addToWatchlist(movie);
-
-    result.fold(
-          (failure) {
-        _error = 'Failed to add to watchlist';
-      },
-          (success) {
-        if (!_watchlist.any((m) => m.id == movie.id)) {
-          _watchlist.add(movie);
-          if (_state == RequestState.empty) {
-            _state = RequestState.success;
-          }
-        }
-      },
-    );
-
-    notifyListeners();
-  }
-
-  /// Internal: Remove movie
-  Future<void> _removeMovieFromWatchlist(int movieId) async {
-    final result = await removeFromWatchlist(movieId);
-
-    result.fold(
-          (failure) {
-        _error = 'Failed to remove from watchlist';
-      },
-          (success) {
-        _watchlist.removeWhere((m) => m.id == movieId);
-        if (_watchlist.isEmpty) {
-          _state = RequestState.empty;
-        }
-      },
-    );
-
-    notifyListeners();
-  }
-
-  String _mapFailureToMessage(Failure failure) {
-    switch (failure.runtimeType) {
-      case CacheFailure:
-        return 'Storage error. Please try again.';
-      default:
-        return 'Unexpected error occurred.';
-    }
   }
 }

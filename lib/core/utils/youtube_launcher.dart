@@ -24,11 +24,7 @@ class YoutubeLauncher {
         mode: LaunchMode.externalApplication,
       );
     } catch (e) {
-      // If all fails, try web URL as last resort
-      return await launchUrl(
-        youtubeWebUrl,
-        mode: LaunchMode.externalApplication,
-      );
+      return false;
     }
   }
 
