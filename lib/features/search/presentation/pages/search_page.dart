@@ -48,8 +48,8 @@ class _SearchPageState extends State<SearchPage> {
                  IconButton(
                   icon: const Icon(Icons.clear),
                   onPressed: () {
-                    _searchController.clear();
                     context.read<SearchProvider>().clearSearch();
+                    _searchController.clear();
                     setState(() {
                       showClearSearchIcon=_searchController.text.isNotEmpty;
                     });

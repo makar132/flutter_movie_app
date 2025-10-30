@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:movie_app/core/utils/youtube_launcher.dart';
 import 'package:provider/provider.dart';
 import '../../../../core/enums/request_state.dart';
 import '../../../../core/utils/constants.dart';
@@ -323,7 +324,7 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
                             child: Container(
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(8),
-                                color: Colors.grey[800],
+                                color: Theme.of(context).colorScheme.primaryContainer,
                               ),
                               child: ListTile(
                                 leading: const Icon(
@@ -331,12 +332,18 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
                                   color: Colors.red,
                                 ),
                                 title: Text(video.name),
-                                onTap: () {
-                                  // TODO: Open YouTube player
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text('Playing: ${video.name}'),
-                                    ),
+                                trailing: const Icon(Icons.open_in_new, size: 20),
+                                onTap: () async{
+                                  await YoutubeLauncher.launchVideoSafe(
+                                    video.key,
+                                    onError: (error){
+                                      ScaffoldMessenger.of(context).showSnackBar(
+                                        SnackBar(
+                                          content: Text(error),
+                                          backgroundColor: Colors.red,
+                                        ),
+                                      );
+                                    }
                                   );
                                 },
                               ),

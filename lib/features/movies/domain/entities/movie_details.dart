@@ -33,7 +33,7 @@ class Video extends Equatable {
     required this.type,
   });
 
-  get youtubeUrl => 'https://www.youtube.com/embed/$key';
+  // String get youtubeUrl => 'https://www.youtube.com/embed/$key';
 
   @override
   List<Object?> get props => [id, key, name, site, type];

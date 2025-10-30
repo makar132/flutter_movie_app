@@ -49,8 +49,13 @@ class SearchProvider extends ChangeNotifier {
   }
 
   Future<void> _performSearch(String query) async {
+    if (_currentQuery.trim() != query) {
+      return;
+    }
     final result = await searchMovies(query);
-
+    if (_currentQuery.trim() != query) {
+      return;
+    }
     result.fold(
           (failure) {
         _state = RequestState.error;
